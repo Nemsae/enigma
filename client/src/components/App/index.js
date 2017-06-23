@@ -8,6 +8,7 @@ import Enigma from '../Enigma';
 /*  Stylesheet */
 import style from './styles';
 
+//  Passup passphrase to here
 class App extends Component {
   render() {
     return (
