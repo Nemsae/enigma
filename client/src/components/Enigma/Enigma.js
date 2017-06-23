@@ -1,4 +1,5 @@
 import React from 'react';
+import createHistory from 'history/createBrowserHistory';
 
 /* Views */
 import EncryptionModal from '../../views/EncryptionModal';
@@ -13,6 +14,8 @@ import dispatcher from '../../AppDispatcher';
 //  TODO: Fix chevron icons of DatePicker
 //  TODO: Take out console.logs()
 //  TODO: Validate that inputs are filled before encrypting!
+
+const history = createHistory();
 
 class Enigma extends React.Component {
   constructor() {
@@ -35,6 +38,13 @@ class Enigma extends React.Component {
 
   componentWillMount() {
     this.dispatcherRef = dispatcher.register(this.onAction);
+    // console.log('this.props: ', this.props);
+    // console.log('this.props.match.params: ', this.props.match.params);
+    const location = this.props.location.pathname;
+    const currPassphrase = location.split('/');
+    if (currPassphrase.length === 2) {
+      this.setState({ passphrase: currPassphrase[1] });
+    }
   }
 
   componentWillUnmount() {
@@ -66,6 +76,7 @@ class Enigma extends React.Component {
   }
 
   handlePassphrase(passphrase) {
+    history.push(`/${passphrase}`);
     this.setState({ passphrase });
   }
 
@@ -102,7 +113,8 @@ class Enigma extends React.Component {
           handleToggle={this.handleToggle}
           active={this.state.dialogActive}
         />
-        <Passphrase handlePassphrase={this.handlePassphrase} />
+        {/* <Passphrase handlePassphrase={this.handlePassphrase} /> */}
+        <Passphrase passphrase={this.state.passphrase} handlePassphrase={this.handlePassphrase} />
       </div>
     );
   }

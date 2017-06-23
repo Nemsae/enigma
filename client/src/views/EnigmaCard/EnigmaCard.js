@@ -11,7 +11,6 @@ import Button from 'react-toolbox/lib/button/Button';
 const todaysDate = new Date(Date.now());
 const minimumDate = new Date(todaysDate.setDate(todaysDate.getDate() - 1));
 
-//  TODO: Prop validation
 const EnigmaCard = (props) => {
   const { sender, message, date, handleChange, handleToggle } = props;
   return (
@@ -59,7 +58,7 @@ const EnigmaCard = (props) => {
 EnigmaCard.propTypes = {
   sender: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-  date: PropTypes.object.isRequired,
+  date: PropTypes.any.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
 };

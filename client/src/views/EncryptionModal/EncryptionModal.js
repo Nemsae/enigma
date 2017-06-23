@@ -28,6 +28,7 @@ class EncryptionModal extends React.Component {
             type="text"
             label="Message"
             value={encryptedMessage}
+            id='encryptedMessage'
             multiline
             required
             // onChange={this.handleChange.bind(this, 'message')}

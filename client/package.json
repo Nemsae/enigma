@@ -45,10 +45,12 @@
   "dependencies": {
     "axios": "^0.16.2",
     "copy-to-clipboard": "^3.0.6",
+    "history": "^4.6.3",
     "password-generator": "^2.1.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.1",
     "react-toolbox": "^2.0.0-beta.12"
   },
   "devDependencies": {
