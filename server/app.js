@@ -1,10 +1,5 @@
 const express = require('express');
 const path = require('path');
-// const sqlite = require('sql.js');
-
-// const filebuffer = fs.readFileSync('db/usda-nnd.sqlite3');
-
-// const db = new sqlite.Database(filebuffer);
 
 const app = express();
 
@@ -15,19 +10,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
 
-// const COLUMNS = [
-//   'carbohydrate_g',
-//   'protein_g',
-//   'fa_sat_g',
-//   'fa_mono_g',
-//   'fa_poly_g',
-//   'kcal',
-//   'description'
-// ];
-
-app.get('/api/enigma', (req, res) => {
-  console.log('Sanity:Sanity:Sanity:');
-});
+// app.get('/', (req, res) => {
+//   console.log('Sanity:Sanity:Sanity:');
+// });
 
 
 //  ROUTES
