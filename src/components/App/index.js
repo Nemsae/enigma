@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
+import Layout from 'react-toolbox/lib/layout/Layout';
 
 import theme from '../../assets/react-toolbox/theme';
-// import theme from '../../assets/react-toolbox/theme.css';
 import Enigma from '../Enigma';
 
+/*  Stylesheet */
+import style from './styles';
 
 class App extends Component {
-  // render() {
-  //   return (
-  //     <div>
-  //       <Enigma />
-  //     </div>
-  //   );
-  // }
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Enigma />
+        <Layout style={style.container}>
+          <Enigma />
+        </Layout>
       </ThemeProvider>
     );
   }
