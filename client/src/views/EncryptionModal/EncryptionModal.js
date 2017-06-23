@@ -1,6 +1,5 @@
 import React from 'react';
-// import Dialog from 'react-toolbox/lib/dialog';
-// import Input from 'react-toolbox/lib/input';
+
 import Dialog from 'react-toolbox/lib/dialog/Dialog';
 import Input from 'react-toolbox/lib/input/Input';
 
