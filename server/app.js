@@ -6,18 +6,18 @@ const path = require('path');
 const mongoose = require('mongoose');
 const db = require('./config/db');
 
+// MONGOOSE CONFIGURATION
+mongoose.Promise = Promise;
+mongoose.connect(db.url, (err) => {
+  console.log(err || `MongoDB connected to ${db.name}`); // eslint-disable-line no-console
+}); //
+
+const app = express();
+
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('../client/public'));
 }
-
-// MONGOOSE CONFIGURATION
-mongoose.Promise = Promise;
-mongoose.connect(db.url, (err) => {
-  console.log(err || `MongoDB connected to ${db.name}`);
-}); //
-
-const app = express();
 
 app.set('port', PORT);
 app.use(bodyParser.json());
@@ -29,7 +29,6 @@ app.use('/api', require('./routes/api'));
 
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));
-  // res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.listen(app.get('port'), () => {

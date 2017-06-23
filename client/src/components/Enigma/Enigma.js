@@ -2,7 +2,6 @@ import React from 'react';
 
 import Card from 'react-toolbox/lib/card/Card';
 import CardActions from 'react-toolbox/lib/card/CardActions';
-
 import Button from 'react-toolbox/lib/button/Button';
 import Input from 'react-toolbox/lib/input/Input';
 import Avatar from 'react-toolbox/lib/avatar/Avatar';
@@ -12,6 +11,7 @@ import Passphrase from '../../views/Passphrase';
 import EncryptionModal from '../../views/EncryptionModal';
 
 import APIactions from '../../actions/APIactions';
+import dispatcher from '../../AppDispatcher';
 
 const todaysDate = new Date(Date.now());
 const minimumDate = new Date(todaysDate.setDate(todaysDate.getDate() - 1));
@@ -33,10 +33,35 @@ class Enigma extends React.Component {
       date: '',
       passphrase: '',
       dialogActive: false,
+      encryptedMessage: '',
     };
 
     this.handlePassphrase = this.handlePassphrase.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.onAction = this.onAction.bind(this);
+  }
+
+  componentWillMount() {
+    this.dispatcherRef = dispatcher.register(this.onAction);
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  onAction(action) {
+    switch (action.type) {
+      case 'RECEIVE_ENCRYPTED_MESSAGE':
+        console.log('action.type: ', action.type);
+        this.setState({
+          encryptedMessage: action.payload,
+        });
+        break;
+      default:
+        this.setState({
+          encryptedMessage: '',
+        });
+    }
   }
 
   handleChange(type, val) {
@@ -50,7 +75,6 @@ class Enigma extends React.Component {
   handleToggle(e) {
     const id = e.target.id;
     if (id === 'encrypt') {
-      console.log('ENCRYPT ME!');
       this.sendEncrpytionRequest();
     }
     this.setState({ dialogActive: !this.state.dialogActive });
@@ -63,7 +87,6 @@ class Enigma extends React.Component {
       expirationDate: this.state.date,
       key: this.state.passphrase,
     };
-
     APIactions.encryptMessage(encryptionPackage);
   }
 
@@ -102,7 +125,7 @@ class Enigma extends React.Component {
             <Button label="DECRYPT" id="decrypt" onClick={this.handleToggle} />
           </CardActions>
         </Card>
-        <EncryptionModal handleToggle={this.handleToggle} active={this.state.dialogActive} />
+        <EncryptionModal encryptedMessage={this.state.encryptedMessage} handleToggle={this.handleToggle} active={this.state.dialogActive} />
         <Passphrase handlePassphrase={this.handlePassphrase} />
       </div>
     );

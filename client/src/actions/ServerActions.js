@@ -1,10 +1,10 @@
 import AppDispatcher from '../AppDispatcher';
 
 const ServerActions = {
-  receiveSearchResults(animeResults) {
+  sendEncryptedMessage(encryptedMessage) {
     AppDispatcher.dispatch({
-      type: 'RECEIVE_ANIME_RESULTS',
-      payload: { animeResults },
+      type: 'RECEIVE_ENCRYPTED_MESSAGE',
+      payload: encryptedMessage,
     });
   },
 };

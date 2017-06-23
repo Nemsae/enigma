@@ -6,16 +6,8 @@ import Input from 'react-toolbox/lib/input/Input';
 
 //  TODO: Prop validation
 class EncryptionModal extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-    };
-    // this.createNewPassphrase = this.createNewPassphrase.bind(this);
-  }
-
   render() {
-    const { active, handleToggle } = this.props;
+    const { active, handleToggle, encryptedMessage } = this.props;
     const actions = [
       { label: 'CLOSE', onClick: handleToggle },
       { label: 'DECRYPT', onClick: handleToggle },
@@ -36,7 +28,7 @@ class EncryptionModal extends React.Component {
           <Input
             type="text"
             label="Message"
-            value={this.state.message}
+            value={encryptedMessage}
             multiline
             required
             // onChange={this.handleChange.bind(this, 'message')}
