@@ -2,13 +2,19 @@ const express = require('express');
 
 const router = express.Router();
 
+const Message = require('../models/Message');
+
 router.route('/')
-  .get((req, res) => {
-    // let animeSearch = req.query;
-    console.log('Sanity:Sanity:Sanity:Sanity:Sanity:');
-    // AnimeModel.searchSeries(animeSearch, (err, series) => {
-    //   res.status(err ? 400 : 200).send(err || series);
-    // });
+  .post((req, res) => {
+    const encryptionPackage = req.body;
+    console.log('encryptionPackage:/api/enigma ', encryptionPackage);
+    Message.create(req.body)
+    .then((newMessage) => {
+      res.send(newMessage);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
   });
 
 module.exports = router;

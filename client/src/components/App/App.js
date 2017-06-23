@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Layout style={style.container}>
+        <Layout style={style.wrapper}>
           <Enigma />
         </Layout>
       </ThemeProvider>

@@ -1,25 +1,35 @@
+const PORT = process.env.PORT || 3001;
+
+const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
-
-const app = express();
-
-app.set('port', process.env.PORT || 3001);
+const mongoose = require('mongoose');
+const db = require('./config/db');
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(express.static('../client/public'));
 }
 
-// app.get('/', (req, res) => {
-//   console.log('Sanity:Sanity:Sanity:');
-// });
+// MONGOOSE CONFIGURATION
+mongoose.Promise = Promise;
+mongoose.connect(db.url, (err) => {
+  console.log(err || `MongoDB connected to ${db.name}`);
+}); //
 
+const app = express();
+
+app.set('port', PORT);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 //  ROUTES
 app.use('/api', require('./routes/api'));
 
 app.use('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+  // res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.listen(app.get('port'), () => {

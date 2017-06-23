@@ -1,16 +1,24 @@
 import axios from 'axios';
 import ServerActions from './actions/ServerActions';
 
+const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
 const API = {
   sendEncrpytion(encryptionPackage) {
     console.log('encryptionPackage:API.js ', encryptionPackage);
-    // axios.post('/api/enigma', encryptionPackage)
-    //   .then((res) => {
-    //     console.log('res: ', res);
-    //   })
-    //   .catch((err) => {
-    //     console.log('err: ', err);
-    //   });
+    axios({
+      method: 'post',
+      url: '/api/enigma',
+      data: encryptionPackage,
+    })
+    axios.post('/api/enigma', encryptionPackage)
+    // axios.post('/api/enigma', encryptionPackage, config)
+    .then((res) => {
+      console.log('res: ', res);
+    })
+    .catch((err) => {
+      console.log('err: ', err);
+    });
   },
   // receiveSearchResults(searchTerm) {
   //   axios.get(`https://kitsu.io/api/edge//anime?filter[text]=${searchTerm}`, {
