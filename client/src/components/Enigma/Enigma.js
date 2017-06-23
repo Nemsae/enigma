@@ -10,7 +10,7 @@ import APIactions from '../../actions/APIactions';
 import dispatcher from '../../AppDispatcher';
 
 //  TODO: Implement spinner/loader
-//  TODO: Take card styles out
+//  TODO: Replace alerts with material suggestions
 //  TODO: Fix chevron icons of DatePicker
 //  TODO: Take out console.logs()
 //  TODO: Validate that inputs are filled before encrypting!
@@ -38,8 +38,6 @@ class Enigma extends React.Component {
 
   componentWillMount() {
     this.dispatcherRef = dispatcher.register(this.onAction);
-    // console.log('this.props: ', this.props);
-    // console.log('this.props.match.params: ', this.props.match.params);
     const location = this.props.location.pathname;
     const currPassphrase = location.split('/');
     if (currPassphrase.length === 2) {
@@ -82,13 +80,33 @@ class Enigma extends React.Component {
 
   handleToggle(e) {
     const id = e.target.id;
-    if (id === 'encrypt') {
-      this.sendEncrpytionRequest();
+    const { sender, message, date, passphrase, encryptedMessage } = this.state;
+    switch (id) {
+      case 'encrypt':
+        if (sender === '' || message === '' || date === '') {
+          alert('ERROR: fill in all required fields');
+        } else {
+          this.sendEncryptionRequest();
+          this.setState({ dialogActive: !this.state.dialogActive });
+        }
+        break;
+      case 'decrypt':
+        console.log('DECRYPT ME!');
+        if (encryptedMessage === '') {
+          alert('ERROR: Encrypted Message cannot be empty');
+        } else {
+          this.sendDecryptionRequest();
+          this.setState({ dialogActive: !this.state.dialogActive });
+        }
+        break;
+      case 'toggle':
+        this.setState({ dialogActive: !this.state.dialogActive });
+        break;
+      default:
     }
-    this.setState({ dialogActive: !this.state.dialogActive });
   }
 
-  sendEncrpytionRequest() {
+  sendEncryptionRequest() {
     const encryptionPackage = {
       sender: this.state.sender,
       message: this.state.message,
@@ -98,6 +116,15 @@ class Enigma extends React.Component {
     APIactions.encryptMessage(encryptionPackage);
   }
 
+  sendDecryptionRequest() {
+    const decryptionPackage = {
+      currentDate: Date.now(),
+      key: this.state.passphrase,
+      encryptedMessage: this.state.encryptedMessage,
+    };
+    APIactions.decryptMessage(decryptionPackage);
+  }
+
   render() {
     return (
       <div>
@@ -105,16 +132,19 @@ class Enigma extends React.Component {
           sender={this.state.sender}
           message={this.state.message}
           date={this.state.date}
-          handleChange={this.handleChange}
           handleToggle={this.handleToggle}
+          handleChange={this.handleChange}
         />
         <EncryptionModal
           encryptedMessage={this.state.encryptedMessage}
           handleToggle={this.handleToggle}
+          handleChange={this.handleChange}
           active={this.state.dialogActive}
         />
-        {/* <Passphrase handlePassphrase={this.handlePassphrase} /> */}
-        <Passphrase passphrase={this.state.passphrase} handlePassphrase={this.handlePassphrase} />
+        <Passphrase
+          passphrase={this.state.passphrase}
+          handlePassphrase={this.handlePassphrase}
+        />
       </div>
     );
   }

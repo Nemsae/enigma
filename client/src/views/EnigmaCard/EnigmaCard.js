@@ -22,7 +22,7 @@ const EnigmaCard = (props) => {
           label='Name'
           id='sender'
           value={sender}
-          icon={<Avatar icon={<span>{sender[0]}</span>} />}
+          icon={<Avatar icon={sender[0]} />}
           onChange={handleChange}
           required
         />
@@ -31,6 +31,7 @@ const EnigmaCard = (props) => {
           label='Message'
           id='message'
           value={message}
+          hint='Type your secret message here!'
           maxLength={120}
           onChange={handleChange}
           multiline
@@ -48,7 +49,7 @@ const EnigmaCard = (props) => {
         />
         <CardActions>
           <Button label='ENCRYPT' id='encrypt' onClick={handleToggle} />
-          <Button label='DECRYPT' id='decrypt' onClick={handleToggle} />
+          <Button label='DECRYPT' id='toggle' onClick={handleToggle} />
         </CardActions>
       </Card>
     </div>

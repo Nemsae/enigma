@@ -2,7 +2,10 @@ import API from '../API';
 
 const APIActions = {
   encryptMessage(encryptionPackage) {
-    API.sendEncrpytion(encryptionPackage);
+    API.sendEncryption(encryptionPackage);
+  },
+  decryptMessage(decryptionPackage) {
+    API.sendDecryption(decryptionPackage);
   },
 };
 
