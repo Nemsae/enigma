@@ -2,6 +2,8 @@ import React from 'react';
 import generatePassword from 'password-generator';
 import copy from 'copy-to-clipboard';
 
+import style from './styles'
+
 // import Tooltip from 'react-toolbox/lib/tooltip';
 // import Link from 'react-toolbox/lib/link';
 import Tooltip from 'react-toolbox/lib/tooltip/Tooltip';
@@ -51,17 +53,17 @@ class Passphrase extends React.Component {
 
   render() {
     const { passphrase } = this.state;
-
+    //  BUG: Tooltip throws error 'A valid react component must be returned...etc'
     return (
-      <div style={{ textAlign: 'center', margin: '20px 0px 20px 0px' }}>
-        Your Passphrase - <a href="" style={{ textDecoration: 'none', color: 'blue' }} onClick={this.copyToClipboard}>{passphrase}</a>
+      <div style={style.container}>
+        Your Passphrase - <a href="" style={style.link} onClick={this.copyToClipboard}>{passphrase}</a>
         {/* <div style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           Your Passphrase -
           <TooltipLink href="#" style={{ textDecoration: 'none', color: 'blue', marginLeft: '.5em' }} label={passphrase} tooltip='Click to copy to clipboard' onClick={this.copyToClipboard} />
         </div> */}
         <br />
         <br />
-        <a href="" style={{ textDecoration: 'none', color: 'blue' }} onClick={this.createNewPassphrase}>
+        <a href="" style={style.link} onClick={this.createNewPassphrase}>
           Generate new Passphrase
         </a>
       </div>
