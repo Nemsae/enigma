@@ -8,8 +8,6 @@ const decryptionTest = {
     return DecipherText;
   },
   checkMessage(dbMessage, packageMessage) {
-    console.log('dbMessage: ', dbMessage);
-    console.log('packageMessage: ', packageMessage);
     return dbMessage === packageMessage;
   },
   checkDate(expirationDate, packageDate) {

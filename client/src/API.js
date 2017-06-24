@@ -18,8 +18,17 @@ const API = {
     })
     .then((res) => {
       const response = res.data;
-      console.log('response:API.js ', response);
-      // ServerActions.sendDecryptedMessage(decryptedMessage);
+      switch (response.type) {
+        case 'message':
+        case 'date':
+        case 'key':
+          ServerActions.sendDecryptionError(response.type);
+          break;
+        case 'SUCCESS':
+          ServerActions.sendDecryptionSuccess(response.payload);
+          break;
+        default:
+      }
     })
     .catch((err) => {
       console.log('err: ', err);  // eslint-disable-line no-console

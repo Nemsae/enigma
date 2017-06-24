@@ -22,18 +22,17 @@ router.route('/')
       const isDateValid = decryptionTest.checkDate(messageDocument.expirationDate, packageDate);
       console.log('isDateValid: ', isDateValid);
 
-      if (!isDateValid) res.send('invalidDate'); //  send error package
-      if (!isMessageValid) res.send('invalidMessage'); //  send error package
+      if (!isDateValid && !isMessageValid) res.send({ type: 'dateMessage' });
+      if (!isDateValid) res.send({ type: 'date' });
+      if (!isMessageValid) res.send({ type: 'message' });
       if (isMessageValid && isDateValid) {
-        const decipheredText = decryptionTest.getDecipheredText(messageDocument, packageKey)
+        const decipheredText = decryptionTest.getDecipheredText(messageDocument, packageKey);
         messageDocument.message = decipheredText;
-        console.log('messageDocument: ', messageDocument);
-        res.send(messageDocument)
+        res.send({ type: 'SUCCESS', payload: messageDocument });
       }
     })
-    .catch((err) => {
-      console.log('ERROR: KEY DOESN"T EXIST', err)
-      res.status(400).send('invalidKey');
+    .catch(() => {
+      res.send({ type: 'key' });
     });
   })
   .post((req, res) => {

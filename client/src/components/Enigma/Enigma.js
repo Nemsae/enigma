@@ -56,6 +56,13 @@ class Enigma extends React.Component {
           encryptedMessage: action.payload,
         });
         break;
+      case 'RECEIVE_DECRYPTION_SUCCESS':
+        this.setState({
+          message: action.payload.message,
+          sender: action.payload.sender,
+          expirationDate: action.payload.expirationDate,
+        });
+        break;
       default:
         this.setState({
           encryptedMessage: '',
@@ -91,7 +98,6 @@ class Enigma extends React.Component {
         }
         break;
       case 'decrypt':
-        console.log('DECRYPT ME!');
         if (encryptedMessage === '') {
           alert('ERROR: Encrypted Message cannot be empty');
         } else {
