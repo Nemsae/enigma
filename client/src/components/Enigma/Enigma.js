@@ -3,6 +3,7 @@ import createHistory from 'history/createBrowserHistory';
 
 /* Views */
 import EncryptionModal from '../../views/EncryptionModal';
+import ErrorModal from '../../views/ErrorModal';
 import EnigmaCard from '../../views/EnigmaCard';
 import Passphrase from '../../views/Passphrase';
 
@@ -28,11 +29,14 @@ class Enigma extends React.Component {
       passphrase: '',
       dialogActive: false,
       encryptedMessage: '',
+      errorMessage: '',
+      errorActive: false,
     };
 
     this.handlePassphrase = this.handlePassphrase.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
+    this.handleEncryptionToggle = this.handleEncryptionToggle.bind(this);
+    this.handleErrorToggle = this.handleErrorToggle.bind(this);
     this.onAction = this.onAction.bind(this);
   }
 
@@ -43,10 +47,6 @@ class Enigma extends React.Component {
     if (currPassphrase.length === 2) {
       this.setState({ passphrase: currPassphrase[1] });
     }
-  }
-
-  componentWillUnmount() {
-    //  Ideally would unmount dispatcher, but this app wouldn't need too
   }
 
   onAction(action) {
@@ -60,7 +60,13 @@ class Enigma extends React.Component {
         this.setState({
           message: action.payload.message,
           sender: action.payload.sender,
-          expirationDate: action.payload.expirationDate,
+          date: new Date(action.payload.expirationDate),
+        });
+        break;
+      case 'RECEIEVE_DECRYPTION_ERROR':
+        this.setState({
+          errorMessage: `The ${action.payload} is invalid!`,
+          errorActive: true,
         });
         break;
       default:
@@ -85,13 +91,21 @@ class Enigma extends React.Component {
     this.setState({ passphrase });
   }
 
-  handleToggle(e) {
+  handleErrorToggle() {
+    console.log('Sanity:');
+    this.setState({ errorActive: !this.state.errorActive });
+  }
+
+  handleEncryptionToggle(e) {
     const id = e.target.id;
-    const { sender, message, date, passphrase, encryptedMessage } = this.state;
+    const { sender, message, date, encryptedMessage } = this.state;
     switch (id) {
       case 'encrypt':
         if (sender === '' || message === '' || date === '') {
-          alert('ERROR: fill in all required fields');
+          this.setState({
+            errorMessage: 'Fill in all required fields!',
+            errorActive: true,
+          });
         } else {
           this.sendEncryptionRequest();
           this.setState({ dialogActive: !this.state.dialogActive });
@@ -99,7 +113,10 @@ class Enigma extends React.Component {
         break;
       case 'decrypt':
         if (encryptedMessage === '') {
-          alert('ERROR: Encrypted Message cannot be empty');
+          this.setState({
+            errorMessage: 'Encrypted Message cannot be empty!',
+            errorActive: true,
+          });
         } else {
           this.sendDecryptionRequest();
           this.setState({ dialogActive: !this.state.dialogActive });
@@ -138,18 +155,23 @@ class Enigma extends React.Component {
           sender={this.state.sender}
           message={this.state.message}
           date={this.state.date}
-          handleToggle={this.handleToggle}
+          handleEncryptionToggle={this.handleEncryptionToggle}
           handleChange={this.handleChange}
         />
         <EncryptionModal
           encryptedMessage={this.state.encryptedMessage}
-          handleToggle={this.handleToggle}
+          handleEncryptionToggle={this.handleEncryptionToggle}
           handleChange={this.handleChange}
           active={this.state.dialogActive}
         />
         <Passphrase
           passphrase={this.state.passphrase}
           handlePassphrase={this.handlePassphrase}
+        />
+        <ErrorModal
+          errorMessage={this.state.errorMessage}
+          handleErrorToggle={this.handleErrorToggle}
+          active={this.state.errorActive}
         />
       </div>
     );

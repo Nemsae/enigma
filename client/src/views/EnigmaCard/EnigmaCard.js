@@ -12,7 +12,7 @@ const todaysDate = new Date(Date.now());
 const minimumDate = new Date(todaysDate.setDate(todaysDate.getDate() - 1));
 
 const EnigmaCard = (props) => {
-  const { sender, message, date, handleChange, handleToggle } = props;
+  const { sender, message, date, handleChange, handleEncryptionToggle } = props;
   return (
     <div>
       <Card style={{ width: '350px', padding: '15px 15px 0px 15px' }}>
@@ -48,8 +48,8 @@ const EnigmaCard = (props) => {
           required
         />
         <CardActions>
-          <Button label='ENCRYPT' id='encrypt' onClick={handleToggle} />
-          <Button label='DECRYPT' id='toggle' onClick={handleToggle} />
+          <Button label='ENCRYPT' id='encrypt' onClick={handleEncryptionToggle} />
+          <Button label='DECRYPT' id='toggle' onClick={handleEncryptionToggle} />
         </CardActions>
       </Card>
     </div>
@@ -60,7 +60,7 @@ EnigmaCard.propTypes = {
   sender: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   date: PropTypes.any.isRequired,
-  handleToggle: PropTypes.func.isRequired,
+  handleEncryptionToggle: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
 };
 
