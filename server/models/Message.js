@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-//  TODO: REMOVE template
 const messageSchema = new mongoose.Schema({
   sender: { type: String, required: true },
   message: { type: String, required: true },
