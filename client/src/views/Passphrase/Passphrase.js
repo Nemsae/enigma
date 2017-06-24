@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import generatePassword from 'password-generator';
 import copy from 'copy-to-clipboard';
 
@@ -44,15 +45,9 @@ class Passphrase extends React.Component {
   }
 
   render() {
-    const { passphrase } = this.state;
-    //  BUG: Tooltip throws error 'A valid react component must be returned...etc'
     return (
       <div style={style.container}>
-        Your Passphrase - <a href='' style={style.link} onClick={this.copyToClipboard}>{passphrase}</a>
-        {/* <div style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          Your Passphrase -
-          <TooltipLink href='#' style={{ textDecoration: 'none', color: 'blue', marginLeft: '.5em' }} label={passphrase} tooltip='Click to copy to clipboard' onClick={this.copyToClipboard} />
-        </div> */}
+        Your Passphrase - <a href='' style={style.link} onClick={this.copyToClipboard}>{this.state.passphrase}</a>
         <br />
         <br />
         <a href='' style={style.link} onClick={this.createNewPassphrase}>
@@ -62,5 +57,10 @@ class Passphrase extends React.Component {
     );
   }
 }
+
+Passphrase.propTypes = {
+  passphrase: PropTypes.string.isRequired,
+  handlePassphrase: PropTypes.func.isRequired,
+};
 
 export default Passphrase;

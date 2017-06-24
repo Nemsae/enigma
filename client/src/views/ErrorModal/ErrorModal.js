@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Dialog from 'react-toolbox/lib/dialog/Dialog';
 
-//  TODO: Prop validation
 const ErrorModal = (props) => {
   const { errorMessage, active, handleErrorToggle } = props;
   const actions = [
@@ -23,7 +22,7 @@ const ErrorModal = (props) => {
 };
 
 ErrorModal.propTypes = {
-  active: PropTypes.boolean.isRequired,
+  active: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string.isRequired,
   handleErrorToggle: PropTypes.func.isRequired,
 };

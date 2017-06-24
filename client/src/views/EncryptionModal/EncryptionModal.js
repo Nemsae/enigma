@@ -32,7 +32,7 @@ const EncryptionModal = (props) => {
 };
 
 EncryptionModal.propTypes = {
-  active: PropTypes.boolean.isRequired,
+  active: PropTypes.bool.isRequired,
   encryptedMessage: PropTypes.string.isRequired,
   handleEncryptionToggle: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,

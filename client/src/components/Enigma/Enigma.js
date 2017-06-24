@@ -10,9 +10,6 @@ import Passphrase from '../../views/Passphrase';
 import APIactions from '../../actions/APIactions';
 import dispatcher from '../../AppDispatcher';
 
-//  TODO: Fix chevron icons of DatePicker
-//  TODO: Take out console.logs()
-
 const history = createHistory();
 
 class Enigma extends React.Component {

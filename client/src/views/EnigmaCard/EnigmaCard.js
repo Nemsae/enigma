@@ -8,6 +8,8 @@ import Avatar from 'react-toolbox/lib/avatar/Avatar';
 import DatePicker from 'react-toolbox/lib/date_picker/DatePicker';
 import Button from 'react-toolbox/lib/button/Button';
 
+import style from './styles';
+
 const todaysDate = new Date(Date.now());
 const minimumDate = new Date(todaysDate.setDate(todaysDate.getDate() - 1));
 
@@ -15,14 +17,14 @@ const EnigmaCard = (props) => {
   const { sender, message, date, handleChange, handleEncryptionToggle } = props;
   return (
     <div>
-      <Card style={{ width: '350px', padding: '15px 15px 0px 15px' }}>
-        Tovias Enigma
+      <Card style={style.container}>
+        <div style={style.title}>Enigma</div>
         <Input
           type='text'
           label='Name'
           id='sender'
           value={sender}
-          icon={<Avatar icon={sender[0]} />}
+          icon={<Avatar>{sender[0]}</Avatar>}
           onChange={handleChange}
           required
         />
@@ -39,7 +41,7 @@ const EnigmaCard = (props) => {
         />
         <DatePicker
           label='Expiration date'
-          // minDate={minimumDate}
+          minDate={minimumDate}
           id='date'
           autoOk={true}
           value={date}
