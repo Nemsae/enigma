@@ -16,11 +16,10 @@ router.route('/')
     Message.find({ key: packageKey })
     .then((messageDocuments) => {
       const messageDocument = messageDocuments[0];
+      
       /* Validation Tests */
       const isMessageValid = decryptionTest.checkMessage(messageDocument.message, packageMessage);
-      console.log('isMessageValid: ', isMessageValid);
       const isDateValid = decryptionTest.checkDate(messageDocument.expirationDate, packageDate);
-      console.log('isDateValid: ', isDateValid);
 
       if (!isDateValid && !isMessageValid) res.send({ type: 'dateMessage' });
       if (!isDateValid) res.send({ type: 'date' });
