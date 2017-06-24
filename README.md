@@ -1,4 +1,4 @@
-#Enigma - Encrypted Message
+# Enigma - Encrypted Message
 
 ## SETUP
 1. `npm i`
