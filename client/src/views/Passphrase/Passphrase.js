@@ -2,17 +2,8 @@ import React from 'react';
 import generatePassword from 'password-generator';
 import copy from 'copy-to-clipboard';
 
-import Tooltip from 'react-toolbox/lib/tooltip/Tooltip';
-import Link from 'react-toolbox/lib/link/Link';
-
 import style from './styles';
 
-const TooltipLink = Tooltip(Link);
-
-//  TODO: Prop validation
-//  TODO: decrease font size
-//  BUG: on some passphrases when copying, first leter is lower case for some unkown reason
-//     label property automatically capitalizes first letter
 class Passphrase extends React.Component {
   constructor() {
     super();

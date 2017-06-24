@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Dialog from 'react-toolbox/lib/dialog/Dialog';
 import Input from 'react-toolbox/lib/input/Input';
 
-//  TODO: Prop validation
 const EncryptionModal = (props) => {
   const { active, handleEncryptionToggle, handleChange, encryptedMessage } = props;
   const actions = [
@@ -29,6 +29,13 @@ const EncryptionModal = (props) => {
       />
     </Dialog>
   );
+};
+
+EncryptionModal.propTypes = {
+  active: PropTypes.boolean.isRequired,
+  encryptedMessage: PropTypes.string.isRequired,
+  handleEncryptionToggle: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default EncryptionModal;

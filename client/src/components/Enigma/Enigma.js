@@ -10,11 +10,8 @@ import Passphrase from '../../views/Passphrase';
 import APIactions from '../../actions/APIactions';
 import dispatcher from '../../AppDispatcher';
 
-//  TODO: Implement spinner/loader
-//  TODO: Replace alerts with material suggestions
 //  TODO: Fix chevron icons of DatePicker
 //  TODO: Take out console.logs()
-//  TODO: Validate that inputs are filled before encrypting!
 
 const history = createHistory();
 
@@ -64,10 +61,17 @@ class Enigma extends React.Component {
         });
         break;
       case 'RECEIEVE_DECRYPTION_ERROR':
-        this.setState({
-          errorMessage: `The ${action.payload} is invalid!`,
-          errorActive: true,
-        });
+        if (action.payload === 'date') {
+          this.setState({
+            errorMessage: 'The message has expired.',
+            errorActive: true,
+          });
+        } else {
+          this.setState({
+            errorMessage: `The ${action.payload} is invalid!`,
+            errorActive: true,
+          });
+        }
         break;
       default:
         this.setState({
@@ -92,7 +96,6 @@ class Enigma extends React.Component {
   }
 
   handleErrorToggle() {
-    console.log('Sanity:');
     this.setState({ errorActive: !this.state.errorActive });
   }
 
@@ -136,6 +139,9 @@ class Enigma extends React.Component {
       expirationDate: this.state.date,
       key: this.state.passphrase,
     };
+    this.setState({
+      encryptedMessage: 'Encrypting...',
+    });
     APIactions.encryptMessage(encryptionPackage);
   }
 

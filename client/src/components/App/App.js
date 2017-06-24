@@ -1,26 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
 import Layout from 'react-toolbox/lib/layout/Layout';
 
 import theme from '../../assets/react-toolbox/theme';
-// import Enigma from '../Enigma';
-import Main from '../Main';
+import Enigma from '../Enigma';
 
-/*  Stylesheet */
 import style from './styles';
 
-//  Passup passphrase to here
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <Layout style={style.wrapper}>
-          <Main />
-          {/* <Enigma /> */}
-        </Layout>
-      </ThemeProvider>
-    );
-  }
-}
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <Layout style={style.wrapper}>
+      <Switch>
+        <Route path='/' component={Enigma} />
+      </Switch>
+    </Layout>
+  </ThemeProvider>
+);
 
 export default App;

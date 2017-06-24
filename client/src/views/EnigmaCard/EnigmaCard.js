@@ -39,7 +39,7 @@ const EnigmaCard = (props) => {
         />
         <DatePicker
           label='Expiration date'
-          minDate={minimumDate}
+          // minDate={minimumDate}
           id='date'
           autoOk={true}
           value={date}

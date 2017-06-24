@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Dialog from 'react-toolbox/lib/dialog/Dialog';
 
@@ -19,6 +20,12 @@ const ErrorModal = (props) => {
       {errorMessage}
     </Dialog>
   );
+};
+
+ErrorModal.propTypes = {
+  active: PropTypes.boolean.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  handleErrorToggle: PropTypes.func.isRequired,
 };
 
 export default ErrorModal;
