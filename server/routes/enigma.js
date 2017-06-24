@@ -1,32 +1,49 @@
 const express = require('express');
-const cryptico = require('cryptico');
 
 const router = express.Router();
 
 const Message = require('../models/Message');
-
+const encryptionTest = require('../utils/encryption');
+const decryptionTest = require('../utils/decryption');
 
 router.route('/')
   .get((req, res) => {
-    const queries = req.query;
-    console.log('queries: ', queries);
+    const decryptionPackage = req.query;
+    const packageMessage = decryptionPackage.encryptedMessage;
+    const packageDate = decryptionPackage.currentDate;
+    const packageKey = decryptionPackage.key;
+
+    Message.find({ key: packageKey })
+    .then((messageDocuments) => {
+      const messageDocument = messageDocuments[0];
+      /* Validation Tests */
+      const isMessageValid = decryptionTest.checkMessage(messageDocument.message, packageMessage);
+      console.log('isMessageValid: ', isMessageValid);
+      const isDateValid = decryptionTest.checkDate(messageDocument.expirationDate, packageDate);
+      console.log('isDateValid: ', isDateValid);
+
+      if (!isDateValid) res.send('invalidDate'); //  send error package
+      if (!isMessageValid) res.send('invalidMessage'); //  send error package
+      if (isMessageValid && isDateValid) {
+        const decipheredText = decryptionTest.getDecipheredText(messageDocument, packageKey)
+        messageDocument.message = decipheredText;
+        console.log('messageDocument: ', messageDocument);
+        res.send(messageDocument)
+      }
+    })
+    .catch((err) => {
+      console.log('ERROR: KEY DOESN"T EXIST', err)
+      res.status(400).send('invalidKey');
+    });
   })
   .post((req, res) => {
     const encryptionPackage = req.body;
-    // console.log('encryptionPackage:/api/enigma ', encryptionPackage);
+    const message = encryptionPackage.message;
+    const key = encryptionPackage.key;
 
-    // ENCRYPTING MESSAGE
-    const RSAkey = cryptico.generateRSAKey(encryptionPackage.key, 1024);
-    const publicKeyString = cryptico.publicKeyString(RSAkey);
-    const EncryptionResult = cryptico.encrypt(encryptionPackage.message, publicKeyString);
-    const CipherText = EncryptionResult.cipher;
-    console.log('CipherText: ', CipherText);  // eslint-disable-line no-console
-
+    /* ENCRYPT MESSGE */
+    const CipherText = encryptionTest.getCipheredText(message, key);
     encryptionPackage.message = CipherText;
-    // //  DECRYPTING MESSAGE
-    // const DecryptionResult = cryptico.decrypt(CipherText, RSAkey);
-    // const DecipherText = DecryptionResult.plaintext;
-    // console.log('DecipherText: ', DecipherText);  // eslint-disable-line no-console
 
     Message.create(encryptionPackage)
     .then((encryption) => {

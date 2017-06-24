@@ -13,19 +13,12 @@ const API = {
     });
   },
   sendDecryption(decryptionPackage) {
-    console.log('decryptionPackage:API.js ', decryptionPackage);
-    // axios.get('/api/enigma', decryptionPackage)
-    // axios.get('/api/enigma', {
-    //   params: {
-    //     ID: 12345,
-    //   },
-    // })
     axios.get('/api/enigma', {
       params: decryptionPackage,
     })
     .then((res) => {
-      const decryptedMessage = res.data;
-      console.log('decryptedMessage: ', decryptedMessage);
+      const response = res.data;
+      console.log('response:API.js ', response);
       // ServerActions.sendDecryptedMessage(decryptedMessage);
     })
     .catch((err) => {
