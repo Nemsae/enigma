@@ -7,3 +7,5 @@
 4. `$ cd client && npm i`
 5. `$ cd..`
 6. `$ npm start`
+
+### Encrypted messages are persisted on a MongoDB server. 
